@@ -30,8 +30,8 @@ func (emitter *ParticleEmitter) update(deltaTime float32) {
 }
 
 func (emitter *ParticleEmitter) render(window *glfw.Window, program uint32) {
-	for _, particle := range emitter.particles {
-		vao := makeVao(particle.position)
-		draw(vao, particle.position, window, program)
-	}
+	// for _, particle := range emitter.particles {
+	// 	vao := makeVao(particle.position)
+	// 	draw(vao, particle.position, window, program)
+	// }
 }

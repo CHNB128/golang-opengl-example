@@ -2,14 +2,35 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"path"
 	"strings"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 )
 
+// AttachShaders attach shader from src/shaders folder
+func AttachShaders(program uint32, shaderFolderDilePath string) {
+	files, err := ioutil.ReadDir(shaderFolderDilePath)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, file := range files {
+		bytes, err := ioutil.ReadFile(path.Join(shaderFolderDilePath, file.Name()))
+		if err != nil {
+			panic(err)
+		}
+		source := string(bytes)
+		attachShader(program, source)
+	}
+}
+
 func attachShader(programm uint32, shaderSource string) {
-	shader, err := compileShader(shaderSource, gl.VERTEX_SHADER)
-	check(err)
+	shader, err := compileShader(shaderSource+"\x00", gl.VERTEX_SHADER)
+	if err != nil {
+		panic(err)
+	}
 	gl.AttachShader(programm, shader)
 }
 
